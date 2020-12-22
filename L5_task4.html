@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Catalog</title>
+    <!-- <script src="./L5_task3.js" defer></script> -->
+    <style>
+        .catalog-list {
+            display: flex;
+            justify-content: space-around;
+            background-color: lightgrey;
+            margin: 0 50px 0 50px;
+        }
+
+        .good {
+            border: 1px solid #000;
+            margin-bottom: 5px;
+            background: white;
+            max-width: 359px;
+            height: 350px;
+            margin: 25px 0 25px 0;
+        }
+
+        .good_img {
+            align-items: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="catalog-list"></div>
+    <script>
+        const catalogItem = {
+            render(good) {
+                return `<div class="good">
+                    <div><b>Наименование</b>: ${good.product_name}</div>
+                    <div><b>Цена за шт.</b>: ${good.price}</div>
+                    <div><b>Есть на складе</b>: ${good.balance_status}</div>
+                    <img class="good_img" src="" alt="good">
+                </div>`;
+            }
+        }
+        const catalog = {
+            catalogListBlock: null,
+            catalogItem,
+            goods: [
+                {
+                    id_group: 555,
+                    name_group: 'Техника',
+                    id_product: 111,
+                    product_name: 'Ноутбук',
+                    price: 15000,
+                    balance_status: 'off',
+                    quantity: 0,
+                },
+                {
+                    id_group: 555,
+                    name_group: 'Техника',
+                    id_product: 222,
+                    product_name: 'Компьютер',
+                    price: 25000,
+                    balance_status: 'on',
+                    quantity: 2,
+                },
+                {
+                    id_group: 555,
+                    name_group: 'Техника',
+                    id_product: 333,
+                    product_name: 'Сервер',
+                    price: 50000,
+                    balance_status: 'on',
+                    quantity: 3,
+                },
+            ],
+            init() {
+                this.catalogListBlock = document.querySelector('.catalog-list');
+                this.render();
+            },
+
+            render() {
+                if (this.goods.length) {
+                    this.goods.forEach(good => {
+                        this.catalogListBlock.insertAdjacentHTML('beforeend', this.catalogItem.render(good));
+                    });
+                }
+            },
+        }
+        catalog.init();
+    </script>
+</body>
+
+</html>
