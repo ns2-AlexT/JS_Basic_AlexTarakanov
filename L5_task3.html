@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basket</title>
+    <script src="./test_3.js" defer></script>
+    <style>
+        .basket-list {
+            display: flexbox;
+            justify-content: space-around;
+            background-color: lightgrey;
+            margin: 0 50px 0 50px;
+
+        }
+
+        .good {
+            border: 1px solid #000;
+            background: white;
+            margin: 25px 0 25px 0;
+        }
+
+        /* .good_img {
+            align-items: center;
+            margin-top: 50px; 
+        }*/
+    </style>
+</head>
+
+<body>
+    <div class="basket-list"></div>
+    <script>
+        const basketItem = {
+            render(good) {
+                return `<div class="good">
+            <div><b>Наименование</b>: ${good.product_name}</div>
+            <div><b>Цена за шт.</b>: ${good.price}</div>
+            <div><b>Количество</b>: ${good.quantity}</div>
+            <div><b>Стоимость</b>: ${good.quantity * good.price}</div>
+        </div>`;
+            }
+        }
+        const basket = {
+            basketListBlock: null,
+            basketItem,
+            goods: [
+                //{
+                // id_group: 555,
+                // name_group: 'Техника',
+                // id_product: 111,
+                // product_name: 'Ноутбук',
+                // price: 15000,
+                // balance_status: 'off',
+                // quantity: 0,
+                //},
+                {
+                    id_group: 555,
+                    name_group: 'Техника',
+                    id_product: 444,
+                    product_name: 'Монитор',
+                    price: 5000,
+                    balance_status: 'on',
+                    quantity: 2,
+                },
+                {
+                    id_group: 555,
+                    name_group: 'Техника',
+                    id_product: 222,
+                    product_name: 'Компьютер',
+                    price: 25000,
+                    balance_status: 'on',
+                    quantity: 3,
+                },
+                {
+                    id_group: 555,
+                    name_group: 'Техника',
+                    id_product: 333,
+                    product_name: 'Сервер',
+                    price: 50000,
+                    balance_status: 'on',
+                    quantity: 4,
+                },
+            ],
+            init() {
+                this.basketListBlock = document.querySelector('.basket-list');
+                this.render();
+            },
+            render() {
+                if (this.goods.length) {
+                    this.goods.forEach(good => {
+                        this.basketListBlock.insertAdjacentHTML('beforeend', this.basketItem.render(good));
+                    });
+                    this.basketListBlock.insertAdjacentHTML('beforeend', `<b>В корзине :</b> ${this.goods.length} товара(ов) на сумму: 
+            ${this.basketPrice()}`);
+                } else {
+                    this.basketListBlock.textContent = 'Корзина пуста';
+                }
+            },
+            basketPrice() {
+                return this.goods.reduce((total, good) => total += good.price * good.quantity, 0);
+            },
+        };
+
+        basket.init();
+    </script>
+</body>
+
+</html>
