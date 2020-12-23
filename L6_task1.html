@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .catalog-list {
+            display: flex;
+            justify-content: space-around;
+            background-color: lightgrey;
+            margin: 0 50px 0 50px;
+        }
+
+        .good {
+            border: 1px solid #000;
+            margin-bottom: 5px;
+            background: white;
+            max-width: 359px;
+            max-height: 350px;
+            margin: 25px 0 25px 0;
+        }
+
+        .basket_good {
+            border: 1px solid #000;
+            background: white;
+            margin: 25px 0 25px 0;
+        }
+
+        .good_img {
+            margin-top: 50px;
+            align-items: center;
+        }
+
+        .basket-list {
+            /* display: flexbox;
+            justify-content: space-around; */
+            background-color: lightgrey;
+            margin: 0 50px 0 50px;
+
+        }
+
+        .button {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="catalog-list"></div>
+    <div class="basket-list"></div>
+    <script>
+        const catalogItem = {
+            render(good) {
+                return `<div class="good">
+                    <div><b>Наименование</b>: ${good.product_name}</div>
+                    <div><b>Цена за шт.</b>: ${good.price}</div>
+                    <div><b>Есть на складе</b>: ${good.quantity}</div>
+                    <img class="good_img" src="img/pic.jpg" alt="good">
+                    <input type="button" name="Купить" value="Select" class="button"  onclick="catalog.addGoodToBasket(${catalog.goods.indexOf(good)});">
+                </div>`;
+            }
+        }
+        const catalog = {
+            catalogListBlock: null,
+            catalogItem,
+            goods: [
+                {
+                    id_group: 555,
+                    name_group: 'Техника',
+                    id_product: 111,
+                    product_name: 'Ноутбук',
+                    price: 15000,
+                    quantity: 1,
+                },
+                {
+                    id_group: 555,
+                    name_group: 'Техника',
+                    id_product: 222,
+                    product_name: 'Компьютер',
+                    price: 25000,
+                    quantity: 2,
+                },
+                {
+                    id_group: 555,
+                    name_group: 'Техника',
+                    id_product: 333,
+                    product_name: 'Сервер',
+                    price: 50000,
+                    quantity: 3,
+                },
+            ],
+            init() {
+                this.catalogListBlock = document.querySelector('.catalog-list');
+                this.render();
+            },
+
+            render() {
+                if (this.goods.length) {
+                    this.goods.forEach(good => {
+                        this.catalogListBlock.insertAdjacentHTML('beforeend', this.catalogItem.render(good));
+                    });
+                }
+            },
+
+            addGoodToBasket(idx) {
+                basket.goods.push(this.goods[idx]);
+                basket.init();
+            },
+        }
+        const basketItem = {
+            render(good) {
+                return `<div class="basket_good">
+            <div><b>Наименование</b>: ${good.product_name}</div>
+            <div><b>Цена за шт.</b>: ${good.price}</div>
+            <div><b>Количество</b>: ${good.quantity = 1}</div>
+            <input type="button" name="Удалить" value="Delete" class="button"  onclick="basket.delGoodToBasket(${basket.goods.indexOf(good)});">
+        </div>`;
+                // /* <div><b>Стоимость</b>: ${good.quantity * good.price}</div> */
+            }
+        }
+        const basket = {
+            basketListBlock: null,
+            basketItem,
+            goods: [],
+            init() {
+                this.basketListBlock = document.querySelector('.basket-list');
+                this.render();
+            },
+            render() {
+                if (this.goods.length) {
+                    this.basketListBlock.textContent = '';
+                    this.goods.forEach(good => {
+                        this.basketListBlock.insertAdjacentHTML('beforeend', this.basketItem.render(good));
+                    });
+                    this.basketListBlock.insertAdjacentHTML('beforeend', `<b>В корзине :</b> ${this.goods.length} товара(ов) на сумму: 
+            ${this.basketPrice()}`);
+                } else {
+                    this.basketListBlock.textContent = 'Корзина пуста';
+                }
+            },
+            basketPrice() {
+                return this.goods.reduce((total, good) => total += good.price, 0);
+            },
+            delGoodToBasket(idx) {
+                this.goods.splice(this.goods[idx], 1);
+                basket.init();
+            },
+        };
+
+        catalog.init();
+        basket.init();
+    </script>
+</body>
+
+</html>
